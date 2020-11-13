@@ -2,19 +2,28 @@ const express = require("express");
 const bodyParser = require("body-parser");
 
 const app = express();
+var items = [];
+
+app.set("view engine", "ejs");
+app.use(bodyParser.urlencoded({ extended: true }));
 app.get("/", function (req, res) {
-  res.send("hello");
-    var today = new Date();
-    var current = today.getDate();
+  var today = new Date();
 
-    if(current === 0 || current === 6){
-        res.send('<h1>Raja karo maja</h1>')
-    }else{
-        res.sendFile(__dirname+'/index.html');
-    }
+  var options = {
+    day: "numeric",
+    weekday: "long",
+    month: "long",
+  };
 
+  var day = today.toLocaleDateString("eg-US", options);
 
+  res.render("list", { kidOfday: day, newListItem: items });
+});
 
+app.post("/", function (req, res) {
+  var item = req.body.newItem;
+  items.push(item);
+  res.redirect("/");
 });
 
 app.listen(3000, function () {
