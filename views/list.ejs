@@ -3,23 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=\, initial-scale=1.0">
-    <title>Document</title>
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <h1>It's a <%= kidOfday %> !</h1>
+    <div class="box" id="heading">
 
-    <ul>
-      
+        <h1> <%= kidOfday %> </h1>
+    </div>
+
+    <div class="box">
+        
     
+        <% for(var i=0; i<newListItem.length;i++){ %>
+   
+            <div class="item">
+                <input type="checkbox">
+                  <p><%= newListItem[i] %></p>
+            </div>
 
-       <% for(var i=0; i<newListItem.length;i++){ %>
-            <li><%= newListItem[i] %></li>
-       <% } %>
-    </ul>
+        <% } %>
 
-    <form action="/" method="POST">
-        <input type="text" name="newItem">
-        <button type="submit" name="button">Add</button>
-    </form>
+
+        <form action="/" method="POST">
+            <input type="text" name="newItem" placeholder="New item" autocomplete="off" >
+            <button type="submit" name="button">+</button>
+        </form>
+
+    </div>
+
+
+
+    
 </body>
 </html>

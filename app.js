@@ -2,26 +2,28 @@ const express = require("express");
 const bodyParser = require("body-parser");
 
 const app = express();
-var items = [];
+let items = [];
 
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ extended: true }));
-app.get("/", function (req, res) {
-  var today = new Date();
+app.use(express.static('public'))
 
-  var options = {
+app.get("/", function (req, res) {
+  let today = new Date();
+
+  let options = {
     day: "numeric",
     weekday: "long",
     month: "long",
   };
 
-  var day = today.toLocaleDateString("eg-US", options);
+  let day = today.toLocaleDateString("eg-US", options);
 
   res.render("list", { kidOfday: day, newListItem: items });
 });
 
 app.post("/", function (req, res) {
-  var item = req.body.newItem;
+  let item = req.body.newItem;
   items.push(item);
   res.redirect("/");
 });
