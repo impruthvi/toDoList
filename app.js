@@ -2,7 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 
 const mongoose = require("mongoose");
-
+const _ = require("lodash");
 const app = express();
 
 app.set("view engine", "ejs");
@@ -83,16 +83,30 @@ app.post("/", function (req, res) {
 
 app.post("/delete", function (req, res) {
   const checkeditamId = req.body.checkbox;
-  Item.findByIdAndRemove(checkeditamId, function (err) {
-    if (!err) {
-      console.log("deleted");
-      res.redirect("/");
-    }
-  });
+  const listName = req.body.listName;
+
+  if(listName==="Today"){
+
+    Item.findByIdAndRemove(checkeditamId, function (err) {
+      if (!err) {
+        console.log("deleted");
+        res.redirect("/");
+      }
+    });
+
+  }else{
+    List.findOneAndUpdate({name:listName},{$pull:{items:{_id:checkeditamId}}},function(err,founfList){
+      if(!err){
+        res.redirect('/'+listName);
+      }
+    } )
+  }
+
+  
 });
 
 app.get("/:coustomListName", function (req, res) {
-  const coustomListName = req.params.coustomListName;
+  const coustomListName = _.capitalize(req.params.coustomListName);
 
   List.findOne({ name: coustomListName }, function (err, foundList) {
     if (!err) {
