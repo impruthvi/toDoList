@@ -34,6 +34,13 @@ const item3 = new Item({
 
 const defaultItems = [itea1, item2, item3];
 
+const listSchema = {
+  name: String,
+  items: [itemSchema],
+};
+
+const List = mongoose.model("List", listSchema);
+
 app.get("/", function (req, res) {
   Item.find({}, function (err, foundItem) {
     if (foundItem.length === 0) {
@@ -62,19 +69,37 @@ app.post("/", function (req, res) {
   res.redirect("/");
 });
 
-
-app.post('/delete',function(req,res){
+app.post("/delete", function (req, res) {
   const checkeditamId = req.body.checkbox;
-Item.findByIdAndRemove(checkeditamId,function(err){
-  if(!err){
-    console.log("deleted");
-    res.redirect('/');
-  }
-})
-})
+  Item.findByIdAndRemove(checkeditamId, function (err) {
+    if (!err) {
+      console.log("deleted");
+      res.redirect("/");
+    }
+  });
+});
 
-app.get("/work", function (req, res) {
-  res.render("list", { listTitle: "Work List", newListItem: workItems });
+app.get("/:coustomListName", function (req, res) {
+  const coustomListName = req.params.coustomListName;
+
+  List.findOne({ name: coustomListName }, function (err, foundList) {
+    if (!err) {
+      if (!foundList) {
+        //create new list
+        const list = new List({
+          name: coustomListName,
+          items: defaultItems,
+        });
+
+        list.save();
+        res.redirect('/'+coustomListName)
+      } else {
+        // show existing list
+
+        res.render('list',{ listTitle: foundList.name, newListItem: foundList.items })
+      }
+    }
+  });
 });
 
 app.post("/work", function (req, res) {
