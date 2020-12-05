@@ -8,6 +8,9 @@
   },
   "author": "Pruthvi",
   "license": "ISC",
+  "engines": {
+    "node": "12.18.4"
+  },
   "dependencies": {
     "body-parser": "^1.19.0",
     "ejs": "^3.1.5",

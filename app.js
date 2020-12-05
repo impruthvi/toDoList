@@ -10,7 +10,9 @@ app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
-mongoose.connect("mongodb://localhost:27017/todoListDB", {
+
+// mongoose.connect("mongodb://localhost:27017/todoListDB", {
+mongoose.connect("mongodb+srv://impruthvi:impruthvi@todolist.wd9gx.mongodb.net/todoListDB?retryWrites=true&w=majority/todoListDB", {
   useNewUrlParser: true,
 });
 
@@ -134,6 +136,15 @@ app.post("/work", function (req, res) {
   res.redirect("/work");
 });
 
-app.listen(3000, function () {
-  console.log("start");
+
+
+let port = process.env.PORT;
+if (port == null || port == "") {
+  port = 3000;
+}
+
+
+
+app.listen(port, function () {
+  console.log("server has started");
 });
