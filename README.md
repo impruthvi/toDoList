@@ -51,5 +51,5 @@
 
 Live Demo : https://polar-journey-06081.herokuapp.com/
 
-### If any issue pls mail me on `pruthvirajput97@gmail.com`
+### If any issue pls mail me on pruthvirajput97@gmail.com
 
